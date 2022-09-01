@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Assignment5
+﻿namespace Assignment5
 {
     public enum RaceCategory { Elf, Orc, Human }
     public class Character
@@ -42,7 +38,12 @@ namespace Assignment5
         /// <param name="damage">The amount of damage taken</param>
         public void TakeDamage(int damage)
         {
-            Health = 100;
+            Health -= damage;
+
+            if (Health <= 0)
+            {
+                IsAlive = false;
+            }
         }
 
         /// <summary>
@@ -51,12 +52,17 @@ namespace Assignment5
         /// <param name="amount">The amount of health to recover</param>
         public void RestoreHealth(int amount)
         {
-            Health = 1;
+            Health += amount;
+
+            if (Health > MaxHealth)
+            {
+                Health = MaxHealth;
+            }
         }
 
         public override string ToString()
         {
-            return string.Format("{0} : {1} - HP {2}/{3} ", Name, Race, Health, MaxHealth);
+            return string.Format($"{0} : {1} - HP {2}/{3} ", Name, Race, Health, MaxHealth);
         }
     }
 }
