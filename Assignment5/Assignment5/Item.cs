@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Assignment5
+﻿namespace Assignment5
 {
     public enum ItemGroup { Consumable, Key, Equipment };
     public class Item

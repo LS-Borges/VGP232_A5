@@ -6,8 +6,8 @@ namespace Assignment5
 {
     public class Inventory
     {
-        // The dictionary items consist of the item and the quantity
-        private Dictionary<Item, int> items;
+        // The list items consist of the item and the quantity
+        private List<Item> items;
 
         public int AvailableSlots
         {
@@ -21,7 +21,7 @@ namespace Assignment5
         {
             get
             {
-                return MaxSlots;
+                return maxSlots;
             }
         }
 
@@ -66,8 +66,40 @@ namespace Assignment5
         {
             // Add it in the items dictionary and increment it the number if it already exist
             // Reduce the slot once it's been added.
-            // returns false if the inventory is full
-            throw new NotImplementedException();
+            // returns false if the inventory is full          
+
+            Item itemExists = FindItem(item);
+
+            if (itemExists != null)
+            {
+                itemExists.Amount += item.Amount;
+                return true;
+            }
+            
+            if (availableSlots > 0)
+            {
+                items.Add(item);
+                --availableSlots;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Inventory is full!");
+                return false;
+            }
+        }
+
+        private Item FindItem(Item item)
+        {
+            foreach (var newItem in items)
+            {
+                if (newItem.Name.ToLower() == item.Name.ToLower())
+                {
+                    return newItem;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -78,6 +110,11 @@ namespace Assignment5
         {
             // use a foreach loop to iterate through the key value pairs and duplicate the item base on the quantity.
             throw new NotImplementedException();
+        }
+
+        bool ListLook(Item item)
+        {
+            return true;
         }
     }
 }
