@@ -6,6 +6,8 @@ namespace Assignment5
     {
         static void Main(string[] args)
         {
+            Inventory inventory = new Inventory(10);
+
             Console.WriteLine("Welcome to the Adventure of Assignment 5!");
 
             Character hero = new Character("Bob", RaceCategory.Human, 100);
@@ -24,14 +26,29 @@ namespace Assignment5
 
             Console.WriteLine("{0} flees from the enemy", hero.Name);
 
-            string item = "small health potion";
+            string itemName1 = "small health potion";
             int restoreAmount = 10;
 
-            Console.WriteLine("{0} find a {1} and drinks it", hero.Name, item);
+            Item item1 = new Item(itemName1, restoreAmount, ItemGroup.Consumable);
 
-            Console.WriteLine("{0} restores {1} health", hero.Name, restoreAmount);
+            string itemName2 = "mana potion";
+            int restoreAmount2 = 5;
 
-            hero.RestoreHealth(restoreAmount);
+            Item item2 = new Item(itemName2, restoreAmount2, ItemGroup.Consumable);
+
+            inventory.AddItem(item1);
+            inventory.AddItem(item2);
+
+            Console.WriteLine("{0} find a {1} and drinks it", hero.Name, itemName1);
+
+            bool takeItemCheck = inventory.TakeItem(item1);
+
+            if(takeItemCheck)
+            {
+                Console.WriteLine("{0} restores {1} health", hero.Name, restoreAmount);
+
+                hero.RestoreHealth(restoreAmount);
+            }
 
             Console.WriteLine(hero);
 
@@ -43,6 +60,8 @@ namespace Assignment5
             {
                 Console.WriteLine("{0} has died.", hero.Name);
             }
+
+            inventory.ListAllItems();
         }
     }
 }
