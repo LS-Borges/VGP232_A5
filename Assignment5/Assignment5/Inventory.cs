@@ -7,7 +7,7 @@ namespace Assignment5
     public class Inventory
     {
         // The list items consist of the item and the quantity
-        private List<Item> items;
+        private Dictionary<Item, int> items;
 
         public int AvailableSlots
         {
@@ -33,8 +33,9 @@ namespace Assignment5
         private int maxSlots;
         public Inventory(int slots)
         {
-            availableSlots = maxSlots;
+            items = new Dictionary<Item, int>();
             maxSlots = slots;
+            availableSlots = maxSlots;
         }
 
         /// <summary>
@@ -52,9 +53,25 @@ namespace Assignment5
         /// <param name="name">The item name</param>
         /// <param name="found">The item if found</param>
         /// <returns>True if you find the item, and false if it does not exist.</returns>
-        bool TakeItem(string name, out Item found)
+        public bool TakeItem(Item item)
         {
-            throw new NotImplementedException();
+            if (items.ContainsKey(item))
+            {
+                --items[item];
+
+                if (items[item] == 0)
+                {
+                    items.Remove(item);
+                    ++availableSlots;
+                }
+
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Item does not exist in the Inventory");
+                return false;
+            }
         }
 
         /// <summary>
@@ -62,23 +79,21 @@ namespace Assignment5
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        bool AddItem(Item item)
+        public bool AddItem(Item item)
         {
             // Add it in the items dictionary and increment it the number if it already exist
             // Reduce the slot once it's been added.
             // returns false if the inventory is full          
 
-            Item itemExists = FindItem(item);
-
-            if (itemExists != null)
+            if (items.ContainsKey(item))
             {
-                itemExists.Amount += item.Amount;
+                ++items[item];
                 return true;
             }
             
             if (availableSlots > 0)
             {
-                items.Add(item);
+                items.Add(item, 1);
                 --availableSlots;
                 return true;
             }
@@ -89,32 +104,26 @@ namespace Assignment5
             }
         }
 
-        private Item FindItem(Item item)
-        {
-            foreach (var newItem in items)
-            {
-                if (newItem.Name.ToLower() == item.Name.ToLower())
-                {
-                    return newItem;
-                }
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Iterates through the dictionary and create a list of all the items.
         /// </summary>
         /// <returns></returns>
-        List<Item> ListAllItems()
+        public List<Item> ListAllItems()
         {
             // use a foreach loop to iterate through the key value pairs and duplicate the item base on the quantity.
-            throw new NotImplementedException();
-        }
 
-        bool ListLook(Item item)
-        {
-            return true;
+            List<Item> newList = new List<Item>();
+
+            foreach (var item in items)
+            {
+                for (int i = 0; i < item.Value; ++i)
+                {
+                    newList.Add(item.Key);
+                    Console.WriteLine(item.Key.Name);
+                }
+            }
+
+            return newList;
         }
     }
 }
