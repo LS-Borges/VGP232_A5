@@ -58,6 +58,8 @@
             {
                 Health = MaxHealth;
             }
+
+            IsAlive = true;
         }
 
         public override string ToString()
